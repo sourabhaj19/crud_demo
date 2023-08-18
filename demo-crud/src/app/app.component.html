@@ -1,0 +1,93 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" *ngIf="mode == 'default'">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          Students List
+          <button class="btn btn-primary ml-auto" (click)="studentForm.reset(); setMode('add')">Add</button>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Major</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of students">
+                <td>{{ student.name }}</td>
+                <td>{{ student.age }}</td>
+                <td>{{ student.major }}</td>
+                <td>
+                  <button class="btn btn-primary"  style="margin-right: 5px;" (click)="viewStudent(student)">View</button>
+                  <button class="btn btn-warning" style="margin-right: 5px;" (click)="editStudent(student)">Edit</button>
+                  <button class="btn btn-danger"  style="margin-right: 5px;" (click)="deleteStudent(student.id)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+      <div class="card" *ngIf="mode == 'view'">
+        <div class="card-header">
+          Student Details
+        </div>
+        <div class="card-body">
+          <!-- student-detail.component.html -->
+          <div>
+            <h4>Selected Student Details</h4>
+            <p><strong>Name:</strong> {{ Singlestudent.name }}</p>
+            <p><strong>Age:</strong> {{ Singlestudent.age }}</p>
+            <p><strong>Major:</strong> {{ Singlestudent.major }}</p>
+          </div>
+
+          <button class="btn btn-danger" (click)="cancle()">Cancle</button>
+
+        </div>
+      </div>
+
+
+
+      <div class="card" *ngIf="mode == 'add'">
+        <div class="card-header" *ngIf="formEdit">
+          Student Update
+        </div>
+        <div class="card-header" *ngIf="!formEdit">
+          Student Add
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <form  [formGroup]="studentForm" class="form" >
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input formControlName="name" id="name" class="form-control" placeholder="Name">
+                </div>
+                <div class="mb-3">
+                  <label for="age" class="form-label">Age</label>
+                  <input formControlName="age" id="age" class="form-control" type="number" placeholder="Age">
+                </div>
+                <div class="mb-3">
+                  <label for="major" class="form-label">Major</label>
+                  <input formControlName="major" id="major" class="form-control" placeholder="Major">
+                </div>
+
+                <div class="d-flex align-items-center">
+                  <button *ngIf="formEdit" type="submit" class="btn btn-primary" style="margin-right: 5px;" (click)="updateStudent(studentForm.value)" [disabled]="studentForm.invalid">Update Student</button>
+                  <button *ngIf="!formEdit" type="submit" class="btn btn-primary" style="margin-right: 5px;" (click)="addStudent(studentForm.value)" [disabled]="studentForm.invalid">Add Student</button>
+                  <button class="btn btn-danger" (click)="cancle()">Cancle</button>
+                </div>
+              </form>              
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
