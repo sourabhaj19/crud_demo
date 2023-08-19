@@ -10,6 +10,7 @@ import { ApiService } from 'src/ApiService/api.service';
 export class AppComponent {
   title = 'demo-crud';
   studentForm: FormGroup;
+  searchText: string = ''; // Declare the searchText property
   mode:string = "default";
   students: any[] = [];
   newStudent: any = {};
@@ -18,6 +19,7 @@ export class AppComponent {
   formEdit:boolean= false;
   constructor(private apiService: ApiService, private fb: FormBuilder) {
     this.studentForm = this.fb.group({
+      id: [''],
       name: ['', Validators.required],
       age: ['', [Validators.required, Validators.min(0)]],
       major: ['', Validators.required]
@@ -39,11 +41,12 @@ export class AppComponent {
   
   
   addStudent(updateObj?:any): void {
+
     console.log(updateObj)
-    this.studentForm.value()
     this.mode = 'add'
     this.apiService.addStudent(updateObj);
     this.apiService.getStudents();
+
   }
 
 
@@ -63,8 +66,10 @@ export class AppComponent {
 
   updateStudent(updateObj:any): void {
     console.log(updateObj)
-    this.apiService.updateStudent(updateObj);
+    this.students = this.apiService.updateStudent(updateObj);
+    console.log("updated student", this.students)
     this.apiService.getStudents();
+    this.mode = 'default'
   }
 
   deleteStudent(studentId: number): void {

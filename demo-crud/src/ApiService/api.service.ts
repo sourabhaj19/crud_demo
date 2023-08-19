@@ -46,20 +46,27 @@ getStudents(): any[] {
 }
 
 addStudent(student: any): void {
+  student.id = this.students.length+1;
   console.log(student , "in service")
   this.students.push(student);
 }
 
-updateStudent(updatedStudent: any): void {
+updateStudent(updatedStudent: any) {
   console.log(updatedStudent)
+  console.log( updatedStudent.id)
   const index = this.students.findIndex(s => s.id === updatedStudent.id);
   if (index !== -1) {
+    console.log(this.students[index].id)
     this.students[index] = updatedStudent;
+    console.log(this.students)
   }
+  return this.students;
 }
 
 deleteStudent(studentId: number): void {
+
   const index = this.students.findIndex(s => s.id === studentId);
+  console.log(index)
   if (index !== -1) {
     this.students.splice(index, 1);
     
